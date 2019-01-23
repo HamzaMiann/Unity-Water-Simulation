@@ -95,7 +95,14 @@ MonoBehaviour:
   size: 15
   rippleNoiseReductionFactor: 5
   waveHeight: 1
+  secondWaveHeight: 1
   waveReductionFactor: 4
   waveSpeed: 1
+  secondWaveSpeed: 1
   staticWater: 0
+  z: 4.7
+  h: 0.3
+  r: 2.1
+  f: -1.1
   sineOffset: 0.1
+  secondSineOffset: 0.1

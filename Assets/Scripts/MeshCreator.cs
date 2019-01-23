@@ -18,12 +18,24 @@ public class MeshCreator : MonoBehaviour {
     [Range(0.01f, 50f)]
     public float waveHeight = 1f;
 
+    [Range(0.01f, 10f)]
+    public float secondWaveHeight = 1f;
+
     [Range(1f, 50f)]
     public float waveReductionFactor = 4f;
 
     [Range(1f, 20f)]
     public float waveSpeed = 1f;
+
+    [Range(1f, 20f)]
+    public float secondWaveSpeed = 1f;
+
     public bool staticWater = false;
+
+    public float z = 4.7f;
+    public float h = 0.3f;
+    public float r = 2.1f;
+    public float f = -1.1f;
 
     private Vector3 position;
     private Mesh mesh;
@@ -32,6 +44,7 @@ public class MeshCreator : MonoBehaviour {
     private int[] triangles;
 
     public float sineOffset = 0.1f;
+    public float secondSineOffset = 0.1f;
 
     public Vector3[] Vertices
     {
@@ -64,7 +77,10 @@ public class MeshCreator : MonoBehaviour {
     void FixedUpdate()
     {
         if (!staticWater)
+        {
             sineOffset += 0.01f * waveSpeed;
+            secondSineOffset += 0.02f * secondWaveSpeed;
+        }
         position = transform.position;
         UpdateMesh(size);
     }
@@ -87,9 +103,10 @@ public class MeshCreator : MonoBehaviour {
     {
 
         s = s / (float)resolution;
-
+        
         int i = 0;
         float offset = sineOffset;
+        float soffset = secondSineOffset;
         //Task[] tasks = new Task[resolution];
         for (int x = 0; x < resolution; ++x)
         {
@@ -103,10 +120,12 @@ public class MeshCreator : MonoBehaviour {
                 vertices[i++] = new Vector3(position.x + (s * x),   // X
                                             (position.y + 0.01f)    // Y
                                             + (waveHeight * Mathf.Sin(offset) / waveReductionFactor)
+                                            //+ (secondWaveHeight * Mathf.Cos(soffset))
                                             + (noise)
                                             , position.z + (s * y));  // Z
             }
             offset += 0.3f;
+            soffset += 0.3f;
         }
         
         int step = resolution;
